@@ -1,0 +1,16 @@
+{
+  "tests": 100,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": 100,
+  "duration_seconds": 13.402,
+  "started_at": "2026-10-11T10:06:37.317181-03:00",
+  "mongodb_version": "7.0.15",
+  "python_version": "3.12.14",
+  "command": "python -m pytest --require-mongo --run-scale --junitxml=test-results/junit.xml",
+  "warning_count": 1,
+  "warning": "Starlette TestClient HTTPX deprecation warning",
+  "app_main_sha256": "866c9dc94127539dfa803ee4b22d37835d5402862ccefda3d7c582feb89a73c4",
+  "scope": "Local real MongoDB and real Uvicorn checks. Not a hidden-grader or hosted-deployment result."
+}

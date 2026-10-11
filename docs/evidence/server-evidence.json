@@ -1,0 +1,19 @@
+{
+  "command": "uvicorn app.main:app --port 8000",
+  "transport": "real HTTP to a separate Uvicorn process",
+  "startup_seconds": 0.332,
+  "verified": [
+    "health",
+    "interactive docs route",
+    "OpenAPI route",
+    "create employee",
+    "punch in",
+    "punch out",
+    "correction with audit history",
+    "read persisted record",
+    "monthly report",
+    "BSON datetime storage",
+    "startup indexes"
+  ],
+  "measured_at_utc": "2026-10-11T13:06:50.552187+00:00"
+}
