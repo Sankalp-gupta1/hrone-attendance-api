@@ -80,7 +80,7 @@ Both jobs used a real MongoDB service container and started Uvicorn for the HTTP
 ## What is not yet proven
 
 - **Hidden grader:** its data and tests are not available. Passing these checks is useful evidence, not a guarantee of selection.
-- **Hosted deployment:** local server operation is verified; no live deployment is claimed.
+- **Hosted deployment:** Vercel marked deployment `dpl_HeVB6b5G8BRKDbt3yy7QNHXc5FiR` READY on 11 October 2026. [The protected deployment exists](https://hrone-attendance-api.vercel.app/docs), but the application database login and connection are pending. The protected-deployment access tool returned 403, so no hosted HTTP success or database workflow is claimed. See [deployment status](DEPLOYMENT.md).
 - **Browser rendering:** the actual HTTP docs route was checked, but there is no recorded browser interaction with Swagger UI.
 - **Production load:** the benchmark is one local dataset and run, not a multi-user load test or a latency guarantee.
 

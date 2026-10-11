@@ -47,7 +47,13 @@ Tests create and remove their own randomly named `hrone_test_…` databases. The
 
 **Measured locally:** 100 tests passed on MongoDB 7.0.15 and Python 3.12.14, including a 100,000-record check and the actual Uvicorn server command. Every required explain path used `IXSCAN` with no `COLLSCAN` in that dataset.
 
-**Verified on GitHub too:** [both CI jobs passed](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38162508865): Python 3.11/MongoDB 6 ran 99 tests (the optional scale test was skipped); Python 3.12/MongoDB 7 ran all 100 tests, including scale. See the [evidence and limits](docs/VERIFICATION.md). Hosted deployment is not yet verified.
+**Verified on GitHub too:** [both CI jobs passed](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38162508865): Python 3.11/MongoDB 6 ran 99 tests (the optional scale test was skipped); Python 3.12/MongoDB 7 ran all 100 tests, including scale. See the [evidence and limits](docs/VERIFICATION.md).
+
+## Hosted demo status
+
+[Open the protected Vercel deployment](https://hrone-attendance-api.vercel.app/docs). Vercel marked the deployment **READY** on 11 October 2026. Sign in with the owning Vercel account to open it.
+
+**Database setup is still pending, so the hosted attendance workflow is not ready to use.** A separate free Atlas cluster exists, but its application login and connection secret have not been configured. The deployed HTTP routes could not be verified because the deployment-access tool returned 403. See [deployment status and remaining setup](docs/DEPLOYMENT.md). The local and GitHub test results above are separate from these hosted checks.
 
 ## Scope and honesty
 

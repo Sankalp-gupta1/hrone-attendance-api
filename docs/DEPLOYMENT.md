@@ -1,8 +1,29 @@
 # Hosting a demo
 
-The application is deployable as a FastAPI service with a separate MongoDB database. **This package does not contain a verified live URL.** The required submission is the public source repository; hosting is optional.
+The application is deployed as a FastAPI service on Vercel. **The build is ready; the hosted database workflow is not yet ready or verified.** The required submission is the public source repository; hosting is optional.
 
-A separate free Atlas cluster has been provisioned for the demo, with empty `employees` and `attendance_logs` collections. Connector access was verified. Connecting the deployed application, creating its indexes through startup and running the hosted workflow are still pending; database provisioning alone is not a live API deployment.
+## Current deployment: 11 October 2026
+
+| Item | Status |
+|---|---|
+| Protected API documentation | https://hrone-attendance-api.vercel.app/docs |
+| Deployment ID | `dpl_HeVB6b5G8BRKDbt3yy7QNHXc5FiR` |
+| Deployed source commit | `b5391b58fa033044d5c89b16e1ea8b56887235e7` |
+| Vercel build | `READY`, production target, `iad1` region |
+| Deployment protection | Vercel Authentication enabled |
+| Atlas database | Free cluster; separate `hrone_demo` database |
+| Project environment | `MONGO_DB=hrone_demo` saved for future production and preview builds |
+| Application database login and `MONGO_URI` | Pending; database-user creation was not performed because the connector did not receive confirmation |
+| Database network access | No public IP access rule has been added |
+| Hosted HTTP verification | Blocked: the protected-deployment access tool returned 403 |
+
+Vercel's `READY` state confirms the build and deployment completed. It does not prove that the API can reach MongoDB. With no configured database connection, the application is designed to return 503 from `/health` and database-backed endpoints; that hosted response has not been observed yet.
+
+To finish setup, approve creation of the dedicated database user, configure its connection string as a sensitive `MONGO_URI` environment variable, configure appropriate database network access, and redeploy. Then authorize access to this project's protected deployment and run the hosted checks below. Never put a connection secret in this repository.
+
+On the current Hobby plan, Vercel uses dynamic outbound IP addresses. MongoDB's [Vercel integration documentation](https://www.mongodb.com/docs/atlas/reference/partner-integrations/vercel/) describes allowing `0.0.0.0/0` for connectivity. That would let any IP attempt a connection to this isolated demo cluster; database authentication and TLS would still apply. This network change is **not configured**. [Vercel Static IPs](https://vercel.com/docs/networking/static-ips) require a paid plan and add-on, which have not been enabled.
+
+A separate free Atlas cluster has been provisioned for the demo, with empty `employees` and `attendance_logs` collections. Connector access was verified. Connecting the deployed application, creating its indexes through startup and running the hosted workflow are still pending.
 
 The assignment email limits public sharing outside the submitted repository before 15 November 2026. Until then, keep any hosted demonstration protected and share it only through an approved review process. A public marketing/demo page is not needed for this backend assignment.
 
