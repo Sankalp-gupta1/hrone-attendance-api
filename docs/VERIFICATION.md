@@ -66,11 +66,20 @@ Every required explain path showed **IXSCAN** and no **COLLSCAN** in this datase
 
 The trend query is the most expensive path: it performs daily lookups and joins. The recorded 92-day run took a few seconds, while the other measured paths were faster. An index scan alone does not prove a query is cheap. For much larger data, precomputed daily summaries with correct adjustment after corrections would be the first performance improvement to evaluate.
 
+## GitHub verification
+
+[GitHub Actions run 38162508865](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38162508865) passed on 11 October 2026 for application commit `13d8e4a4655dc1bae3da131e8412810120a95429`.
+
+| Environment | Result | Test duration |
+|---|---|---|
+| Python 3.11 / MongoDB 6.0 | 99 passed; the optional 100,000-record test was skipped | 4.38 seconds |
+| Python 3.12 / MongoDB 7.0 | All 100 passed, including the 100,000-record test | 14.39 seconds |
+
+Both jobs used a real MongoDB service container and started Uvicorn for the HTTP workflow test. Each emitted one TestClient deprecation warning. These durations cover pytest, excluding dependency installation and container startup. The run's artifacts contain JUnit results and generated evidence. Documentation was updated after the successful run; application and test code were unchanged.
+
 ## What is not yet proven
 
 - **Hidden grader:** its data and tests are not available. Passing these checks is useful evidence, not a guarantee of selection.
-- **Python 3.11 / MongoDB 6:** the implementation targets those supported minimums and the CI matrix includes them; they were not exercised in the recorded local run.
-- **GitHub Actions:** the workflow is included but no remote successful run is claimed yet.
 - **Hosted deployment:** local server operation is verified; no live deployment is claimed.
 - **Browser rendering:** the actual HTTP docs route was checked, but there is no recorded browser interaction with Swagger UI.
 - **Production load:** the benchmark is one local dataset and run, not a multi-user load test or a latency guarantee.

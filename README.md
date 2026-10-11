@@ -45,7 +45,9 @@ python -m pytest --require-mongo --run-scale
 
 Tests create and remove their own randomly named `hrone_test_…` databases. They never use the application's `MONGO_DB`. Use a local test server. Without `MONGO_TEST_URI`, database tests skip; `--require-mongo` prevents a misleading partial pass.
 
-**Measured locally:** 100 tests passed on MongoDB 7.0.15 and Python 3.12.14, including a 100,000-record check and the actual Uvicorn server command. Every required explain path used `IXSCAN` with no `COLLSCAN` in that dataset. See the [evidence and limits](docs/VERIFICATION.md). GitHub CI and hosted deployment are not yet verified.
+**Measured locally:** 100 tests passed on MongoDB 7.0.15 and Python 3.12.14, including a 100,000-record check and the actual Uvicorn server command. Every required explain path used `IXSCAN` with no `COLLSCAN` in that dataset.
+
+**Verified on GitHub too:** [both CI jobs passed](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38162508865): Python 3.11/MongoDB 6 ran 99 tests (the optional scale test was skipped); Python 3.12/MongoDB 7 ran all 100 tests, including scale. See the [evidence and limits](docs/VERIFICATION.md). Hosted deployment is not yet verified.
 
 ## Scope and honesty
 

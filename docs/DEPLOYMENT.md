@@ -2,6 +2,8 @@
 
 The application is deployable as a FastAPI service with a separate MongoDB database. **This package does not contain a verified live URL.** The required submission is the public source repository; hosting is optional.
 
+A separate free Atlas cluster has been provisioned for the demo, with empty `employees` and `attendance_logs` collections. Connector access was verified. Connecting the deployed application, creating its indexes through startup and running the hosted workflow are still pending; database provisioning alone is not a live API deployment.
+
 The assignment email limits public sharing outside the submitted repository before 15 November 2026. Until then, keep any hosted demonstration protected and share it only through an approved review process. A public marketing/demo page is not needed for this backend assignment.
 
 ## Option A: a Python web service
