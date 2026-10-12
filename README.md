@@ -1,10 +1,10 @@
-# Employee Attendance & Analytics API
+# Attend — Employee Attendance & Analytics
 
-A small backend that keeps a reliable attendance register. Employees can punch in and out. A manager can correct a mistake with a reason. Reports show attendance, late arrivals and department trends.
+A calm, readable workspace for an employee attendance register. Add people, record punch-in and punch-out, correct a mistake with a reason, and understand the month through reports. The React dashboard and the FastAPI backend work together with MongoDB.
 
 The important part is what happens around the edges: two punches arriving together, a night shift crossing midnight, an employee with no records, or several people tied in a ranking. The API handles these cases explicitly and keeps correction history.
 
-**Built with Python, FastAPI and MongoDB. All application code is in `app/main.py`.**
+**The required API is built with Python, FastAPI and MongoDB. All Python application code remains in `app/main.py`.** The optional frontend uses React, Vite and CSS. It calls the same API; the assignment's endpoint contract is unchanged.
 
 ## Start here
 
@@ -13,6 +13,7 @@ The important part is what happens around the edges: two punches arriving togeth
 | Understand the project without a technical background | [Plain-English introduction](docs/START_HERE.md) |
 | Install it, try requests, and see a full example | [Setup and walkthrough](docs/WALKTHROUGH.md) |
 | Understand every file and the important functions | [Code guide](docs/CODE_GUIDE.md) |
+| Use or change the React dashboard | [Frontend guide](docs/FRONTEND.md) |
 | See the starter defects and fixes | [Code review](REVIEW.md) |
 | Read the five design answers | [Design decisions](DECISIONS.md) |
 | Check tests, measurements and remaining limits | [Verification](docs/VERIFICATION.md) |
@@ -33,7 +34,9 @@ uvicorn app.main:app --port 8000
 
 Windows PowerShell commands and an optional local MongoDB container command are in the [walkthrough](docs/WALKTHROUGH.md). No Dockerfile is needed or included.
 
-Open [interactive API docs](http://127.0.0.1:8000/docs). [Health](http://127.0.0.1:8000/health) returns `{"status":"ok"}` only when MongoDB answers and indexes are ready. Startup creates the indexes automatically; it does not load, clear or replace employee data.
+Open [the dashboard](http://127.0.0.1:8000/) or [interactive API docs](http://127.0.0.1:8000/docs). The compiled frontend is included, so Node.js is not needed to run the Python service. [Health](http://127.0.0.1:8000/health) returns `{"status":"ok"}` only when MongoDB answers and indexes are ready. Startup creates the indexes automatically; it does not load, clear or replace employee data.
+
+To change the frontend, use Node.js 24, run `npm ci`, edit `src/`, then run `npm test` and `npm run build`. Commit the updated `app/static/` build with the source. The [frontend guide](docs/FRONTEND.md) explains the development workflow and each screen.
 
 ## Run the tests
 
@@ -51,13 +54,13 @@ Tests create and remove their own randomly named `hrone_test_…` databases. The
 
 ## Hosted demo status
 
-[Open the protected Vercel deployment](https://hrone-attendance-api.vercel.app/docs). Vercel marked the deployment **READY** on 11 October 2026. Sign in with the owning Vercel account to open it.
+[Open the protected workspace](https://hrone-attendance-api.vercel.app/) or [the API docs](https://hrone-attendance-api.vercel.app/docs). Sign in with the owning Vercel account to open the deployment. The exact build status is recorded in the [deployment guide](docs/DEPLOYMENT.md).
 
 **Database setup is still pending, so the hosted attendance workflow is not ready to use.** A separate free Atlas cluster exists, but its application login and connection secret have not been configured. The deployed HTTP routes could not be verified because the deployment-access tool returned 403. See [deployment status and remaining setup](docs/DEPLOYMENT.md). The local and GitHub test results above are separate from these hosted checks.
 
 ## Scope and honesty
 
-All required endpoint implementations are present. This is an assignment API, not a complete HR product: no login, manager permissions, holiday calendar or payroll integration. `regularized_by` is a label supplied by the caller, not a verified identity. Only use fictional data in a demo.
+All required endpoint implementations are present. The frontend adds an overview, people directory, punch forms, corrections, audit history, reports and CSV export. This is an assignment prototype: there is no employee login, manager permission system, holiday calendar or payroll integration. `regularized_by` is a label supplied by the caller, not a verified identity. Only use fictional data in a demo.
 
 AI assistance was used for implementation, documentation and test development. The code was checked against the supplied contract and exercised against real MongoDB. Read the guide and run the examples before presenting or modifying the project in an interview.
 

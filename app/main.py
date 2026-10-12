@@ -13,12 +13,14 @@ import re
 from contextlib import asynccontextmanager
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP
+from pathlib import Path
 from typing import Annotated, Any, Literal
 
 from bson import Decimal128, json_util
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import AfterValidator, BaseModel, ConfigDict, Field, field_validator, model_validator
 from pymongo import ASCENDING, DESCENDING, IndexModel, MongoClient, ReturnDocument
 from pymongo.errors import DuplicateKeyError, PyMongoError
@@ -79,6 +81,20 @@ async def lifespan(application: FastAPI):
 
 app = FastAPI(title="Employee Attendance & Analytics API", version="2.0.0", lifespan=lifespan,
               description="Record attendance, correct mistakes with history, and read MongoDB-backed reports.")
+
+# The React build is served from the same origin, so the UI needs no CORS rules
+# or exposed database credentials. The assignment's API paths stay unchanged.
+UI_DIRECTORY = Path(__file__).resolve().parent / "static"
+if UI_DIRECTORY.is_dir():
+    app.mount("/ui", StaticFiles(directory=UI_DIRECTORY), name="workspace-assets")
+
+
+@app.get("/", include_in_schema=False)
+def workspace():
+    entry = UI_DIRECTORY / "index.html"
+    if not entry.is_file():
+        raise HTTPException(503, "Build the workspace with npm ci and npm run build")
+    return FileResponse(entry, headers={"Cache-Control": "no-cache"})
 
 
 def database():

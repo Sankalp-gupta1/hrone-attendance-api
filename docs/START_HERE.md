@@ -2,15 +2,16 @@
 
 Imagine an office attendance register. Each employee has a code. Each working day, they record when they arrive and leave. Sometimes a clock is wrong or somebody chooses the wrong status. A manager needs to fix that mistake without hiding what changed.
 
-This project is the software behind that register. It stores employees, records attendance, checks the rules and produces reports. It is an **API**: another program sends a request and receives an answer. The built-in `/docs` page gives you buttons and forms to try it yourself.
+This project is the software behind that register. It stores employees, records attendance, checks the rules and produces reports. The **Attend dashboard** gives you normal buttons, forms and charts at `/`. Behind it is an **API**: the dashboard sends a request and receives an answer. The built-in `/docs` page lets a developer try the same API directly.
 
-## The three main pieces
+## The main pieces
 
 | Piece | In everyday language | Its job here |
 |---|---|---|
 | Python | The language used to write the instructions | Calculate times, validate requests and describe queries |
 | FastAPI | The reception desk | Receive a request, check its shape and send a response |
 | MongoDB | The persistent register | Store records, enforce uniqueness and calculate reports |
+| React and CSS | The workspace you see | Show people, forms, charts, clear messages and navigation |
 
 A **database** keeps the information after the web server stops. An **index** is like the alphabetical index at the back of a book: it helps MongoDB find the right records without reading every page.
 
@@ -22,7 +23,7 @@ A **database** keeps the information after the web server stops. An **index** is
 4. Correct arrival to 09:28, with the reason “Clock was wrong.” The API recalculates hours to 9.53 and lateness to zero.
 5. Open the record again. The correction history shows the old values, the new values, who supplied the correction and why.
 
-The [walkthrough](WALKTHROUGH.md) has the exact requests for this example. It uses made-up people and dates, so you can repeat it without using anyone's personal information.
+You can do these steps through the dashboard: add a person, choose the attendance date, save both punches, then use the pencil icon to make the correction. The history icon shows what changed. The [frontend guide](FRONTEND.md) explains each screen. The [walkthrough](WALKTHROUGH.md) also has exact API requests for the same example. Use made-up people and dates.
 
 ## The reports answer different questions
 

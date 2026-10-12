@@ -79,9 +79,18 @@ Both jobs used a real MongoDB service container and started Uvicorn for the HTTP
 
 ## What is not yet proven
 
+### Frontend addition: 12 October 2026
+
+- The React/Vite production build succeeds. It is served by the original FastAPI process.
+- **10 frontend tests passed:** unavailable-database state, employee creation, historical punch-in with IST conversion, corrections, protected-login responses, pagination, timezone boundaries and safe CSV export.
+- **100 Python tests passed, 1 optional scale test skipped** after adding the UI routes, against Python 3.12.14 and real MongoDB 7.0.15. This includes the separate Uvicorn HTTP workflow and the new frontend asset-serving check. The earlier 100,000-record evidence still applies to the unchanged aggregation implementation.
+- Component tests use Happy DOM and HTTP fixtures. They are not a real-browser or hosted-MongoDB test.
+
+### Remaining limits
+
 - **Hidden grader:** its data and tests are not available. Passing these checks is useful evidence, not a guarantee of selection.
 - **Hosted deployment:** Vercel marked deployment `dpl_HeVB6b5G8BRKDbt3yy7QNHXc5FiR` READY on 11 October 2026. [The protected deployment exists](https://hrone-attendance-api.vercel.app/docs), but the application database login and connection are pending. The protected-deployment access tool returned 403, so no hosted HTTP success or database workflow is claimed. See [deployment status](DEPLOYMENT.md).
-- **Browser rendering:** the actual HTTP docs route was checked, but there is no recorded browser interaction with Swagger UI.
+- **Browser rendering:** HTTP routes and compiled frontend assets were checked, but there is no recorded real-browser visual or keyboard walkthrough of the React dashboard or Swagger UI.
 - **Production load:** the benchmark is one local dataset and run, not a multi-user load test or a latency guarantee.
 
 The local test run emitted a Starlette warning about its HTTPX-based TestClient API. It did not fail a test. The separate Uvicorn check also verifies real HTTP independently of TestClient.

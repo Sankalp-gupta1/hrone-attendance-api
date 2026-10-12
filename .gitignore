@@ -12,3 +12,4 @@ test-results/
 *.log
 *.tgz
 *.tar.gz
+node_modules/

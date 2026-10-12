@@ -6,7 +6,7 @@ Start with [START_HERE](START_HERE.md) for the purpose of the project and [WALKT
 
 | File | Why it exists |
 |---|---|
-| `app/main.py` | The complete application: validation, time rules, database setup, queries and routes |
+| `app/main.py` | The complete Python API: validation, time rules, database setup, queries, routes and serving the built dashboard |
 | `app/__init__.py` | Marks `app` as a Python package so `app.main` can be imported |
 | `requirements.txt` | Pins the libraries needed to run the application |
 | `requirements-dev.txt` | Includes runtime requirements and adds the test tools |
@@ -18,9 +18,25 @@ Start with [START_HERE](START_HERE.md) for the purpose of the project and [WALKT
 | `tests/test_analytics.py` | Uses deliberately awkward records to check reports against expected results |
 | `tests/test_scale.py` | Generates 100,000 records, checks startup and query plans, and records measurements |
 | `tests/test_server.py` | Starts a separate Uvicorn process and tries a complete workflow over real HTTP |
-| `.github/workflows/tests.yml` | Configures GitHub Actions to run tests with MongoDB 6/Python 3.11 and MongoDB 7/Python 3.12 |
+| `tests/test_workspace.py` | Verifies that the dashboard and its assets load, and that missing database setup still returns 503 |
+| `.github/workflows/tests.yml` | Runs frontend checks plus MongoDB 6/Python 3.11 and MongoDB 7/Python 3.12 API tests |
 | `.gitignore` | Keeps local environments, credentials, logs and generated test output out of Git |
-| `vercel.json` | Optional hosting configuration: a 30-second limit for the FastAPI function |
+| `vercel.json` | A 30-second FastAPI function limit; includes the compiled dashboard assets |
+| `package.json` | Frontend dependencies and the dev, test and build commands |
+| `package-lock.json` | Locks the exact dependency tree so another machine can reproduce the build |
+| `vite.config.js` | Builds the dashboard into `app/static/`; forwards development API requests to FastAPI |
+| `index.html` | The frontend's HTML entry point and page metadata |
+| `public/favicon.svg` | The small Attend mark shown in the browser tab |
+| `src/main.jsx` | Starts React and loads the stylesheet |
+| `src/App.jsx` | Navigation and the overview, attendance, people, reports and help screens |
+| `src/components.jsx` | Shared buttons, tables, chart, dialog, loading and error displays |
+| `src/forms.jsx` | Employee, punch and correction forms, plus audit-history display |
+| `src/styles.css` | Typography, colours, spacing, responsive layouts and accessible focus states |
+| `src/lib/api.js` | Same-origin HTTP requests, pagination, cancellation and useful error messages |
+| `src/lib/format.js` | IST conversion, labels, safe CSV cells and correction payloads |
+| `src/lib/format.test.js` | Tests time boundaries, omitted correction fields and CSV formula protection |
+| `src/App.test.jsx` | DOM-based tests for connection errors and important form workflows |
+| `app/static/index.html` and `app/static/assets/*` | Generated production frontend; rebuild instead of editing by hand |
 | `README.md` | The quick entry point, commands and links to deeper explanations |
 | `REVIEW.md` | Concrete defects in the starter and the fixes made |
 | `DECISIONS.md` | Short answers to the five required design questions |
@@ -29,6 +45,8 @@ Start with [START_HERE](START_HERE.md) for the purpose of the project and [WALKT
 | `docs/CODE_GUIDE.md` | This file: how the implementation fits together |
 | `docs/VERIFICATION.md` | Test coverage, measured evidence and remaining limitations |
 | `docs/DEPLOYMENT.md` | Hosting steps and checks still required before sharing a live demo |
+| `docs/FRONTEND.md` | A plain-English dashboard walkthrough and frontend development instructions |
+| `docs/THIRD_PARTY.md` | Licences for bundled React, icons and the locally served font |
 | `docs/evidence/scale-evidence.json` | A saved local measurement from the 100,000-record test |
 | `docs/evidence/server-evidence.json` | A saved measurement from the actual server-process test |
 | `docs/evidence/test-summary.json` | A compact summary of the recorded pytest run |
@@ -51,7 +69,7 @@ Start with [START_HERE](START_HERE.md) for the purpose of the project and [WALKT
 
 ## Read `app/main.py` in this order
 
-The single file is deliberate: the assignment requires all application code there. Numbered comments divide it into five sections. Related logic is still kept in small functions so each rule has one home.
+The single Python file is deliberate: the assignment requires the API application code there. Numbered comments divide it into five sections. Related logic stays in small functions. React code lives separately in `src/` and adds no alternative implementation of the attendance rules.
 
 ### 1. Configuration and database lifecycle
 
