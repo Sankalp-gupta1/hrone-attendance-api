@@ -1,5 +1,5 @@
 # Attend — Employee Attendance & Analytics
-
+## Deployed:  https://hrone-attendance-api.vercel.app/  (Database not connected properly currently)
 A calm, readable workspace for an employee attendance register. Add people, record punch-in and punch-out, correct a mistake with a reason, and understand the month through reports. The React dashboard and the FastAPI backend work together with MongoDB.
 
 The important part is what happens around the edges: two punches arriving together, a night shift crossing midnight, an employee with no records, or several people tied in a ranking. The API handles these cases explicitly and keeps correction history.
