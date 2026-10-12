@@ -1,0 +1,108 @@
+{
+  "checked_at_utc": "2026-10-12T12:10:56Z",
+  "application_url": "https://hrone-attendance-api.vercel.app/",
+  "deployment": {
+    "id": "dpl_8g9fzomP173uuRYF5VnvfD4Qrmo6",
+    "state": "READY",
+    "target": "production",
+    "source_commit": "79f8ec02284eaee2946b7924f98666b6d0341b65"
+  },
+  "database": {
+    "name": "hrone_demo",
+    "cluster": "hrone-demo",
+    "network_rule": "0.0.0.0/0",
+    "network_rule_explicitly_approved": true,
+    "credentials_stored_as_sensitive_vercel_variable": true,
+    "employee_count": 0,
+    "attendance_count": 0,
+    "indexes": {
+      "employees": [
+        {
+          "name": "_id_",
+          "key": {
+            "_id": 1
+          }
+        },
+        {
+          "name": "employee_code_unique",
+          "key": {
+            "emp_code": 1
+          }
+        },
+        {
+          "name": "employee_department_code",
+          "key": {
+            "department": 1,
+            "emp_code": 1
+          }
+        },
+        {
+          "name": "employee_joined_department",
+          "key": {
+            "joined_on": 1,
+            "department": 1
+          }
+        },
+        {
+          "name": "employee_department_joined",
+          "key": {
+            "department": 1,
+            "joined_on": 1
+          }
+        }
+      ],
+      "attendance_logs": [
+        {
+          "name": "_id_",
+          "key": {
+            "_id": 1
+          }
+        },
+        {
+          "name": "attendance_employee_date_unique",
+          "key": {
+            "emp_code": 1,
+            "date": -1
+          }
+        },
+        {
+          "name": "attendance_date_employee",
+          "key": {
+            "date": -1,
+            "emp_code": 1
+          }
+        },
+        {
+          "name": "attendance_status_date_employee",
+          "key": {
+            "status": 1,
+            "date": -1,
+            "emp_code": 1
+          }
+        },
+        {
+          "name": "attendance_employee_punch",
+          "key": {
+            "emp_code": 1,
+            "punch_in": -1
+          }
+        }
+      ]
+    }
+  },
+  "verification": {
+    "atlas_connector_read_verified": true,
+    "expected_application_indexes_observed": 8,
+    "application_initialization": "Supported by the observed application index names; no successful hosted HTTP response was captured.",
+    "hosted_http_verified": false,
+    "hosted_attendance_workflow_verified": false,
+    "protected_access_error": 403,
+    "temporary_access_link": "Rejected by automatic approval review; not created.",
+    "deployment_protection": "Remains enabled",
+    "records_inserted_directly_for_demo": false
+  },
+  "limitations": [
+    "Deployment readiness and database index observations are not an end-to-end attendance test.",
+    "Open the app through an authorized Vercel session to finish hosted verification."
+  ]
+}

@@ -1,6 +1,6 @@
-# Hosting a demo
+# Deployment and database connection
 
-The application is deployed as a FastAPI service on Vercel. **The build is ready; the hosted database workflow is not yet ready or verified.** The required submission is the public source repository; hosting is optional.
+The application is deployed as a FastAPI service on Vercel, with the React workspace served from the same application. **Database configuration is complete, a fresh deployment is ready, and all eight application indexes were found in Atlas.** The full hosted attendance workflow still needs a check through an authorized Vercel session. The required submission is the public source repository; hosting is optional.
 
 ## Verified frontend deployment: 12 October 2026
 
@@ -11,24 +11,27 @@ The application is deployed as a FastAPI service on Vercel. **The build is ready
 | Verified frontend deployment ID | `dpl_AkSK56MiK7C6zt8PYh3yLP53zQ41` |
 | Verified frontend source commit | `af2e6a44fdd90e8d64b8c625cbb5bcd0e84823b4` |
 | Deployment after saving the database secret | `dpl_FbLXy3gX5bFutmDGRxJY6ukYgpTx`, `READY`; source `9f9561183dc3afc562c3c188c7bfb647b36e5b24` (documentation changes only since the frontend release) |
+| Deployment after enabling database network access | `dpl_8g9fzomP173uuRYF5VnvfD4Qrmo6`, `READY`; source `79f8ec02284eaee2946b7924f98666b6d0341b65` (documentation changes only) |
 | Vercel build | `READY`, production target, `iad1` region |
 | Deployment protection | Vercel Authentication enabled |
 | Atlas database | Free cluster; separate `hrone_demo` database |
 | Project environment | `MONGO_DB=hrone_demo` configured for production and preview builds |
 | Application database login and `MONGO_URI` | Configured; dedicated `readWrite` user restricted to `hrone_demo` on `hrone-demo`; URI stored as a sensitive production/preview environment variable |
-| Database network access | Empty access list; the any-IP rule was rejected by automatic approval review pending the owner's explicit approval |
-| Hosted HTTP verification | Not completed; the last protected-access attempt returned 403 |
+| Database network access | `0.0.0.0/0` enabled with the owner's explicit approval on 12 October 2026; database authentication and TLS remain required |
+| Application indexes | All eight expected indexes present in Atlas, plus the two default `_id_` indexes |
+| Stored records at the setup check | Zero employees and zero attendance records; no sample records were inserted directly into Atlas |
+| Hosted HTTP verification | Not completed; Vercel denied protected access with 403, and automatic approval review rejected creating a temporary access link |
 | GitHub checks for the frontend source | [All three jobs passed](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38192939259): frontend, MongoDB 6 and MongoDB 7 with the scale test |
 
-Vercel's `READY` state confirms the build and deployment completed. It does not prove that the API can reach MongoDB. The connection secret is configured, but database network access is still blocked. The application is designed to return 503 from `/health` and database-backed endpoints when MongoDB cannot be reached; that hosted response has not been observed yet.
+Vercel's `READY` state confirms the build and deployment completed. The separately observed application indexes in Atlas are evidence that database initialization ran successfully. They do not replace a hosted HTTP health check or an attendance create/punch/correct/report workflow. No successful hosted HTTP response has been captured by the verification tool. The application returns 503 when it cannot reach MongoDB.
 
 The frontend build took about 18 seconds on Vercel. The production alias points to the application, with the dashboard at `/`. The dashboard loads independently of database readiness and clearly reports a missing connection. The recorded deployment above identifies the tested frontend release; later documentation-only commits may have their own deployment IDs with the same application files.
 
-To finish setup, decide on the database network rule, configure the approved access and redeploy so startup can connect and create indexes. Then authorize access to this project's protected deployment and run the hosted checks below. The database user and sensitive `MONGO_URI` have already been created; they do not need to be created again. Never put a connection secret in this repository.
+The database user, sensitive `MONGO_URI`, network rule and redeployment are complete. To finish independent hosted verification, use an authorized Vercel session and run the checks below. The connector could deploy the project but could not obtain protected HTTP access: its access request returned 403. A subsequent temporary-link request was rejected by automatic approval review because it would grant access to the protected application. Deployment Protection remains enabled. Never put a connection secret or temporary access token in this repository.
 
-On the current Hobby plan, Vercel uses dynamic outbound IP addresses. MongoDB's [Vercel integration documentation](https://www.mongodb.com/docs/atlas/reference/partner-integrations/vercel/) describes allowing `0.0.0.0/0` for connectivity. That would let any IP attempt a connection to this isolated demo cluster; database authentication and TLS would still apply. This network change is **not configured**. Automatic approval review rejected the attempted rule because general deployment authorization did not explicitly approve this broad network exposure. A narrower alternative is fixed outbound IPs with only those addresses allowed; [Vercel Static IPs](https://vercel.com/docs/networking/static-ips) require a paid plan and add-on, which have not been enabled.
+On the current Hobby plan, Vercel uses dynamic outbound IP addresses. MongoDB's [Vercel integration documentation](https://www.mongodb.com/docs/atlas/reference/partner-integrations/vercel/) describes allowing `0.0.0.0/0` for connectivity. The owner explicitly approved this rule for the dedicated assignment project, and the rule is configured. Any IP can attempt a database connection; authentication and TLS still apply, and the application user is limited to `hrone_demo` on `hrone-demo`. A narrower alternative is fixed outbound IPs with only those addresses allowed; [Vercel Static IPs](https://vercel.com/docs/networking/static-ips) require a paid plan and add-on, which have not been enabled.
 
-A separate free Atlas cluster has been provisioned for the demo, with empty `employees` and `attendance_logs` collections. Connector access was verified. Connecting the deployed application, creating its indexes through startup and running the hosted workflow are still pending.
+A separate free Atlas cluster holds the `employees` and `attendance_logs` collections. Connector access, both empty collection counts and all eight application indexes were verified. The [setup evidence](evidence/hosted-setup.json) records these observations and their limits. The database name `hrone_demo` is an environment setting, not a simulated storage mode; the application uses persistent MongoDB collections.
 
 The assignment email limits public sharing outside the submitted repository before 15 November 2026. Until then, keep any hosted demonstration protected and share it only through an approved review process. A public marketing/demo page is not needed for this backend assignment.
 
@@ -60,7 +63,7 @@ Vercel's [official FastAPI documentation](https://vercel.com/docs/frameworks/bac
 5. Deploy, then open the protected URL through the normal authorized flow.
 6. Run the verification below against the deployed API before describing it as working.
 
-Database provisioning, hosting plans and protection features depend on the account. No paid service, new subscription or public network rule was created by this project.
+Database provisioning, hosting plans and protection features depend on the account. No paid service or new subscription was enabled. The any-IP Atlas rule described above was added with the owner's explicit approval.
 
 The service creates indexes during application startup. Repeated starts are safe because the indexes have stable names and definitions. A hosted instance uses a bounded connection pool; a high number of instances would still need connection-budget planning.
 

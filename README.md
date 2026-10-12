@@ -58,7 +58,7 @@ Tests create and remove their own randomly named `hrone_test_…` databases. The
 
 The React dashboard deployment is **READY**. Its [GitHub verification run](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38192939259) passed all three jobs: frontend, MongoDB 6 and MongoDB 7 with the scale test.
 
-**Database network access is still pending, so the hosted attendance workflow is not ready to use.** A separate free Atlas cluster and a database user limited to `hrone_demo` are configured. The connection secret is stored as a sensitive Vercel environment variable, and a new deployment is ready. The database's network access list is still empty: allowing any source IP needs the owner's explicit approval. The deployed HTTP routes could not be verified because the deployment-access tool returned 403. See [deployment status and remaining setup](docs/DEPLOYMENT.md). The local and GitHub test results above are separate from these hosted checks.
+**MongoDB configuration is complete.** The dedicated Atlas database, scoped application user, sensitive Vercel connection variable and owner-approved network access are configured. A fresh production deployment is ready, and all eight application indexes were confirmed in Atlas. This is evidence of application initialization; the full hosted attendance workflow has not been independently verified because Vercel denied the verification tool access to the protected deployment. Sign in with the owning Vercel account to use the workspace. See [deployment status](docs/DEPLOYMENT.md) and the [recorded setup evidence](docs/evidence/hosted-setup.json). The local and GitHub tests are separate from hosted workflow verification.
 
 ## Scope and honesty
 
