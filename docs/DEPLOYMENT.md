@@ -10,22 +10,23 @@ The application is deployed as a FastAPI service on Vercel. **The build is ready
 | API documentation | https://hrone-attendance-api.vercel.app/docs |
 | Verified frontend deployment ID | `dpl_AkSK56MiK7C6zt8PYh3yLP53zQ41` |
 | Verified frontend source commit | `af2e6a44fdd90e8d64b8c625cbb5bcd0e84823b4` |
+| Deployment after saving the database secret | `dpl_FbLXy3gX5bFutmDGRxJY6ukYgpTx`, `READY`; source `9f9561183dc3afc562c3c188c7bfb647b36e5b24` (documentation changes only since the frontend release) |
 | Vercel build | `READY`, production target, `iad1` region |
 | Deployment protection | Vercel Authentication enabled |
 | Atlas database | Free cluster; separate `hrone_demo` database |
 | Project environment | `MONGO_DB=hrone_demo` configured for production and preview builds |
-| Application database login and `MONGO_URI` | Pending; database-user creation was not performed because the connector did not receive confirmation |
-| Database network access | No public IP access rule has been added |
+| Application database login and `MONGO_URI` | Configured; dedicated `readWrite` user restricted to `hrone_demo` on `hrone-demo`; URI stored as a sensitive production/preview environment variable |
+| Database network access | Empty access list; the any-IP rule was rejected by automatic approval review pending the owner's explicit approval |
 | Hosted HTTP verification | Not completed; the last protected-access attempt returned 403 |
 | GitHub checks for the frontend source | [All three jobs passed](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38192939259): frontend, MongoDB 6 and MongoDB 7 with the scale test |
 
-Vercel's `READY` state confirms the build and deployment completed. It does not prove that the API can reach MongoDB. With no configured database connection, the application is designed to return 503 from `/health` and database-backed endpoints; that hosted response has not been observed yet.
+Vercel's `READY` state confirms the build and deployment completed. It does not prove that the API can reach MongoDB. The connection secret is configured, but database network access is still blocked. The application is designed to return 503 from `/health` and database-backed endpoints when MongoDB cannot be reached; that hosted response has not been observed yet.
 
 The frontend build took about 18 seconds on Vercel. The production alias points to the application, with the dashboard at `/`. The dashboard loads independently of database readiness and clearly reports a missing connection. The recorded deployment above identifies the tested frontend release; later documentation-only commits may have their own deployment IDs with the same application files.
 
-To finish setup, approve creation of the dedicated database user, configure its connection string as a sensitive `MONGO_URI` environment variable, configure appropriate database network access, and redeploy. Then authorize access to this project's protected deployment and run the hosted checks below. Never put a connection secret in this repository.
+To finish setup, decide on the database network rule, configure the approved access and redeploy so startup can connect and create indexes. Then authorize access to this project's protected deployment and run the hosted checks below. The database user and sensitive `MONGO_URI` have already been created; they do not need to be created again. Never put a connection secret in this repository.
 
-On the current Hobby plan, Vercel uses dynamic outbound IP addresses. MongoDB's [Vercel integration documentation](https://www.mongodb.com/docs/atlas/reference/partner-integrations/vercel/) describes allowing `0.0.0.0/0` for connectivity. That would let any IP attempt a connection to this isolated demo cluster; database authentication and TLS would still apply. This network change is **not configured**. [Vercel Static IPs](https://vercel.com/docs/networking/static-ips) require a paid plan and add-on, which have not been enabled.
+On the current Hobby plan, Vercel uses dynamic outbound IP addresses. MongoDB's [Vercel integration documentation](https://www.mongodb.com/docs/atlas/reference/partner-integrations/vercel/) describes allowing `0.0.0.0/0` for connectivity. That would let any IP attempt a connection to this isolated demo cluster; database authentication and TLS would still apply. This network change is **not configured**. Automatic approval review rejected the attempted rule because general deployment authorization did not explicitly approve this broad network exposure. A narrower alternative is fixed outbound IPs with only those addresses allowed; [Vercel Static IPs](https://vercel.com/docs/networking/static-ips) require a paid plan and add-on, which have not been enabled.
 
 A separate free Atlas cluster has been provisioned for the demo, with empty `employees` and `attendance_logs` collections. Connector access was verified. Connecting the deployed application, creating its indexes through startup and running the hosted workflow are still pending.
 
