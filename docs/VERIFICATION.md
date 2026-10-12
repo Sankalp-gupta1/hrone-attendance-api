@@ -85,11 +85,12 @@ Both jobs used a real MongoDB service container and started Uvicorn for the HTTP
 - **10 frontend tests passed:** unavailable-database state, employee creation, historical punch-in with IST conversion, corrections, protected-login responses, pagination, timezone boundaries and safe CSV export.
 - **100 Python tests passed, 1 optional scale test skipped** after adding the UI routes, against Python 3.12.14 and real MongoDB 7.0.15. This includes the separate Uvicorn HTTP workflow and the new frontend asset-serving check. The earlier 100,000-record evidence still applies to the unchanged aggregation implementation.
 - Component tests use Happy DOM and HTTP fixtures. They are not a real-browser or hosted-MongoDB test.
+- [GitHub Actions run 38192939259](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38192939259) passed for frontend release `af2e6a44fdd90e8d64b8c625cbb5bcd0e84823b4`. All three jobs succeeded: the frontend build/tests and committed-asset check, Python 3.11/MongoDB 6, and Python 3.12/MongoDB 7 including scale.
 
 ### Remaining limits
 
 - **Hidden grader:** its data and tests are not available. Passing these checks is useful evidence, not a guarantee of selection.
-- **Hosted deployment:** Vercel marked deployment `dpl_HeVB6b5G8BRKDbt3yy7QNHXc5FiR` READY on 11 October 2026. [The protected deployment exists](https://hrone-attendance-api.vercel.app/docs), but the application database login and connection are pending. The protected-deployment access tool returned 403, so no hosted HTTP success or database workflow is claimed. See [deployment status](DEPLOYMENT.md).
+- **Hosted deployment:** Vercel marked frontend deployment `dpl_AkSK56MiK7C6zt8PYh3yLP53zQ41` READY on 12 October 2026, built from `af2e6a44fdd90e8d64b8c625cbb5bcd0e84823b4`. [The protected workspace exists](https://hrone-attendance-api.vercel.app/), but the application database login and connection are pending. The last protected-access attempt returned 403, so no hosted HTTP success or database workflow is claimed. See [deployment status](DEPLOYMENT.md).
 - **Browser rendering:** HTTP routes and compiled frontend assets were checked, but there is no recorded real-browser visual or keyboard walkthrough of the React dashboard or Swagger UI.
 - **Production load:** the benchmark is one local dataset and run, not a multi-user load test or a latency guarantee.
 

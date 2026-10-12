@@ -2,22 +2,26 @@
 
 The application is deployed as a FastAPI service on Vercel. **The build is ready; the hosted database workflow is not yet ready or verified.** The required submission is the public source repository; hosting is optional.
 
-## Current deployment: 11 October 2026
+## Verified frontend deployment: 12 October 2026
 
 | Item | Status |
 |---|---|
-| Protected API documentation | https://hrone-attendance-api.vercel.app/docs |
-| Deployment ID | `dpl_HeVB6b5G8BRKDbt3yy7QNHXc5FiR` |
-| Deployed source commit | `b5391b58fa033044d5c89b16e1ea8b56887235e7` |
+| Protected React workspace | https://hrone-attendance-api.vercel.app/ |
+| API documentation | https://hrone-attendance-api.vercel.app/docs |
+| Verified frontend deployment ID | `dpl_AkSK56MiK7C6zt8PYh3yLP53zQ41` |
+| Verified frontend source commit | `af2e6a44fdd90e8d64b8c625cbb5bcd0e84823b4` |
 | Vercel build | `READY`, production target, `iad1` region |
 | Deployment protection | Vercel Authentication enabled |
 | Atlas database | Free cluster; separate `hrone_demo` database |
-| Project environment | `MONGO_DB=hrone_demo` saved for future production and preview builds |
+| Project environment | `MONGO_DB=hrone_demo` configured for production and preview builds |
 | Application database login and `MONGO_URI` | Pending; database-user creation was not performed because the connector did not receive confirmation |
 | Database network access | No public IP access rule has been added |
-| Hosted HTTP verification | Blocked: the protected-deployment access tool returned 403 |
+| Hosted HTTP verification | Not completed; the last protected-access attempt returned 403 |
+| GitHub checks for the frontend source | [All three jobs passed](https://github.com/Sankalp-gupta1/hrone-attendance-api/actions/runs/38192939259): frontend, MongoDB 6 and MongoDB 7 with the scale test |
 
 Vercel's `READY` state confirms the build and deployment completed. It does not prove that the API can reach MongoDB. With no configured database connection, the application is designed to return 503 from `/health` and database-backed endpoints; that hosted response has not been observed yet.
+
+The frontend build took about 18 seconds on Vercel. The production alias points to the application, with the dashboard at `/`. The dashboard loads independently of database readiness and clearly reports a missing connection. The recorded deployment above identifies the tested frontend release; later documentation-only commits may have their own deployment IDs with the same application files.
 
 To finish setup, approve creation of the dedicated database user, configure its connection string as a sensitive `MONGO_URI` environment variable, configure appropriate database network access, and redeploy. Then authorize access to this project's protected deployment and run the hosted checks below. Never put a connection secret in this repository.
 
@@ -46,7 +50,7 @@ The database user needs permissions to read/write the two collections and create
 
 ## Option B: Vercel with MongoDB
 
-Vercel's [official FastAPI documentation](https://vercel.com/docs/frameworks/backend/fastapi) recognizes a FastAPI app exported from `app/main.py`. The included `vercel.json` sets the function's maximum duration to 30 seconds. A Dockerfile is not required.
+Vercel's [official FastAPI documentation](https://vercel.com/docs/frameworks/backend/fastapi) recognizes a FastAPI app exported from `app/main.py`. The included `vercel.json` sets the function's maximum duration to 30 seconds and includes `app/static/`. This folder contains the compiled React dashboard. A Dockerfile and a separate frontend host are not required.
 
 1. Publish the source repository, then import it into an authorized Vercel project.
 2. Configure a MongoDB 6.0+ database, such as an Atlas deployment, and a dedicated database user.
